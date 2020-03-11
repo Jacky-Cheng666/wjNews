@@ -5,6 +5,10 @@ Vue.use(VueRouter)
 // 如果写views/login找到views下面的login文件夹里面里面的index.js或者index.vue。省略写法。
 import login from '@/views/login/index.vue'
 import home from '@/views/home/index.vue'
+import layout from '@/views/layout/index.vue'
+import video from '@/views/video'
+import mine from '@/views/mine'
+import question from '@/views/question'
 const routes = [
   {
     path: "/login",
@@ -14,11 +18,30 @@ const routes = [
     }
   },
   {
-    path: "/home",
-    component: home,
-    meta: {
-      title: "首页"
+    path: "/layout",
+    component: layout,
+    meta: { title: "首页" },
+    children: [{
+      path: "/home",
+      component: home,
+      meta: { title: "首页" },
+    },
+    {
+      path: "/video",
+      component: video,
+      meta: { title: "视频" },
+    },
+    {
+      path: "/mine",
+      component: mine,
+      meta: { title: "我的" },
+    },
+    {
+      path: "/question",
+      component: question,
+      meta: { title: "问答" },
     }
+    ]
   },
   {
     path: "/",
