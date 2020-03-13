@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { getToken } from '@/utils/token.js'
+import store from '@/store/index.js'
 // 创建新的axios实例。
 let request = axios.create({
     baseURL: process.env.VUE_APP_URL,
@@ -10,7 +11,7 @@ let request = axios.create({
 // 请求拦截里面携带token
 request.interceptors.request.use(function (config) {
     // (1)在发送请求之前做些什么
-    config.headers.token = getToken();//这句代码就是，每次首页里面的请求在发送后都会被拦截下来，自动加上一个token值。
+    config.headers.Authorization = store.state.token && 'Bearer ' + store.state.token;//这句代码就是，每次首页里面的请求在发送后都会被拦截下来，自动加上一个token值。
     return config;
 }, function (error) {
     //(2) 对请求错误做些什么
