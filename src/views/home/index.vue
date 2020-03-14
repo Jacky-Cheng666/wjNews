@@ -44,6 +44,7 @@ export default {
   components: { channel },
   data() {
     return {
+      channels: [],
       value: "",
       active: "",
       // loading:控制列表List的刷新状态，为false会调用onLoad方法，为true不调用。
@@ -132,6 +133,7 @@ export default {
 <style lang="less" scoped>
 .home {
   padding-top: 98px;
+  // margin-top: 98px;
   margin-bottom: 50px;
   .search {
     // opacity: 0;
