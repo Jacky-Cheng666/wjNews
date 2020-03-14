@@ -92,7 +92,7 @@ export default {
       }
     },
     // 只要下拉刷新就会触发该事件。一旦触发这个事件，会把下拉状态pullLoading改为true。
-    onRefresh(item) {
+    async onRefresh(item) {
       // 用这个方法可以去请求新的数据，请求到数据后，记得把pullLoading状态改为false。
       // 每次上拉，去请求最新的随机数据。就意味着，我们要把这个频道记录的上一页的时间戳清空为Date.now()。
       item.pre_time = Date.now();
@@ -100,9 +100,17 @@ export default {
       item.loading = false;
       // 把finished改为false，因为有可能你下拉的时候，已经把数据加载完了，此时finished已经变成true了。把list重置为空数组
       item.finished = false;
-      item.list = [];
+      let res = await articleList({
+        channel_id: item.id,
+        // 要记录上一次请求返回的时间戳。
+        // 这里不能写Date.now()的原因：写了后会永远加载不完，因为它每次加载都是随机加载，如果我们希望往上一拉就出上一页数据，再拉又出上一页数据，就需要传入上一页的时间戳。
+        // 第一次加载数据时候，就是需要Date.now()找最新随机10条新闻。只是后面每次上拉要用上一页时间戳。
+        timestamp: item.pre_time,
+        with_top: 0
+      });
+      item.list = res.data.results;
       // 然后就可以重新去加载数据了
-      this.onLoad(item);
+
       item.pullLoading = false;
     }
   },
