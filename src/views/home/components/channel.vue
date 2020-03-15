@@ -25,9 +25,14 @@
         <span>频道推荐</span>
       </div>
       <div class="content">
-        <van-tag size="large" v-for="(item, index) in 10" :key="index">
+        <van-tag
+          @click="addChannel(item)"
+          size="large"
+          v-for="(item, index) in filters"
+          :key="index"
+        >
           <van-icon name="plus" />
-          标签{{item}}
+          {{item.name}}
         </van-tag>
       </div>
     </div>
@@ -35,6 +40,7 @@
 </template>
 
 <script>
+import { channelAll, channelSave } from "@/api/channel.js";
 export default {
   name: "channel",
   props: {
@@ -46,8 +52,52 @@ export default {
   },
   data() {
     return {
-      show: false
+      show: false,
+      allChannels: [],
+      // 过滤后的数组，频道推荐数组。
+      filters: []
     };
+  },
+  async created() {
+    let res = await channelAll();
+    // console.log("所有频道", res);
+    this.allChannels = res.data.channels;
+    this.filters = this.allChannels.filter(item => {
+      return !this.myList
+        .map(it => {
+          return it.id;
+        })
+        .includes(item.id);
+    });
+    // console.log(this.filters);
+  },
+  methods: {
+    addChannel(item) {
+      // console.log(item);
+      // 把被点击的频道加到我的频道里面。
+      this.myList.push(item);
+      // 删除filters里面添加上去的元素
+      for (var i = 0; i < this.filters.length; i++) {
+        if (this.filters[i].id == item.id) {
+          // 删除匹配到的第i个元素。
+          this.filters.splice(i, 1);
+        }
+      }
+
+      // 先准备调用接口需要的数据
+      // 我们要调用slice方法，从下标1开始截取数组。然后再提取。
+      // 例如：我的频道现在有，推荐，c++,前端,java，提取的时候不应该包含推荐。
+      let channels = this.myList.slice(1).map((item, index) => {
+        return {
+          id: item.id,
+          seq: index + 1
+        };
+      });
+      console.log(channels);
+
+      // 调用接口发请求去保存
+      channelSave({ channels });
+    }
   }
 };
 </script>

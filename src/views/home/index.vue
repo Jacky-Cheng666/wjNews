@@ -109,8 +109,7 @@ export default {
         with_top: 0
       });
       item.list = res.data.results;
-      // 然后就可以重新去加载数据了
-
+      // 结束下拉状态(发完请求后就能把加载中。。。文字去掉)
       item.pullLoading = false;
     }
   },
