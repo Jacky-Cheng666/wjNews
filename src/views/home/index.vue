@@ -23,7 +23,37 @@
             finished-text="没有更多了"
             @load="onLoad(item)"
           >
-            <van-cell v-for="(it,idx) in item.list" :key="idx" :title="it.title" />
+            <!-- 每一行就是一个cell。 -->
+            <van-cell v-for="(it,idx) in item.list" :key="idx">
+              <!-- 自定义title内容 -->
+              <template slot="title">
+                <!-- 标题div -->
+                <div class="title">
+                  <span>{{it.title}}</span>
+                  <img
+                    style="width:116px;height:73px"
+                    v-if="it.cover.type==1"
+                    :src="it.cover.images[0]"
+                    alt
+                  />
+                </div>
+                <!-- 图片div -->
+                <van-grid v-if="it.cover.type==3" :gutter="2" :border="false" :column-num="3">
+                  <van-grid-item v-for="(item, index) in it.cover.images" :key="index">
+                    <van-image style="height:73px" :src="item" />
+                  </van-grid-item>
+                </van-grid>
+                <!-- 作者，评论div -->
+                <div class="info">
+                  <div>
+                    <span class="info-span">{{it.aut_name}}</span>
+                    <span class="info-span">{{it.comm_count}}评论</span>
+                    <span class="info-span">{{it.pubdate}}</span>
+                  </div>
+                  <van-icon class="info-more" name="cross" />
+                </div>
+              </template>
+            </van-cell>
           </van-list>
         </van-pull-refresh>
         <!-- 列表模块结束 -->
@@ -169,6 +199,29 @@ export default {
       z-index: 999;
       top: 54px;
       width: 100%;
+    }
+    .info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      .info-span {
+        margin-right: 10px;
+        font-size: 12px;
+        color: #ccc;
+      }
+      .info-more {
+        border: 1px solid #ccc;
+        color: #ccc;
+        width: 25px;
+        height: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .title {
+      display: flex;
+      justify-content: space-between;
     }
   }
 }
