@@ -24,3 +24,13 @@ export function channelSave(data) {
         data
     })
 }
+
+// 4，删除频道
+export function channelDel(data) {
+    return request({
+        url: "/app/v1_0/user/channels",
+        method: "DELETE",
+        data
+    })
+}
+

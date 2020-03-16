@@ -29,7 +29,7 @@
               <template slot="title">
                 <!-- 标题div -->
                 <div class="title">
-                  <span>{{it.title}}</span>
+                  <span class="word">{{it.title}}</span>
                   <img
                     style="width:116px;height:73px"
                     v-if="it.cover.type==1"
@@ -38,7 +38,7 @@
                   />
                 </div>
                 <!-- 图片div -->
-                <van-grid v-if="it.cover.type==3" :gutter="2" :border="false" :column-num="3">
+                <van-grid v-if="it.cover.type==3" :gutter="0" :border="false" :column-num="3">
                   <van-grid-item v-for="(item, index) in it.cover.images" :key="index">
                     <van-image style="height:73px" :src="item" />
                   </van-grid-item>
@@ -48,9 +48,9 @@
                   <div>
                     <span class="info-span">{{it.aut_name}}</span>
                     <span class="info-span">{{it.comm_count}}评论</span>
-                    <span class="info-span">{{it.pubdate}}</span>
+                    <span class="info-span">{{it.pubdate|formatTime}}</span>
                   </div>
-                  <van-icon class="info-more" name="cross" />
+                  <van-icon @click="showMore(it,item.list)" class="info-more" name="cross" />
                 </div>
               </template>
             </van-cell>
@@ -62,6 +62,8 @@
     <!-- 3，弹出层模块 -->
     <channel :myList="channels" ref="channel"></channel>
     <!-- 这里的v-model是控制弹出层的现实和隐藏。 -->
+    <!-- 4，更多模块 -->
+    <more ref="more"></more>
   </div>
 </template>
 
@@ -69,9 +71,11 @@
 import { channelList } from "@/api/channel.js";
 import { articleList } from "@/api/article.js";
 import channel from "./components/channel";
+import dayjs from "dayjs";
+import more from "./components/more";
 export default {
   name: "home",
-  components: { channel },
+  components: { channel, more },
   data() {
     return {
       channels: [],
@@ -141,6 +145,16 @@ export default {
       item.list = res.data.results;
       // 结束下拉状态(发完请求后就能把加载中。。。文字去掉)
       item.pullLoading = false;
+    },
+    // 显示更多方法
+    showMore(item, list) {
+      // item：当前被点击的文章。list文章数组
+      // console.log(item);
+      this.$refs.more.aut_id = item.aut_id;
+      this.$refs.more.show = true;
+      this.$refs.more.art_id = item.art_id;
+      // 引用类型赋值，注意传递的是地址。
+      this.$refs.more.art_list = list;
     }
   },
   async created() {
@@ -163,6 +177,11 @@ export default {
       // 因为它不用在界面显示，可以直接添加属性。
       item.pre_time = Date.now();
     });
+  },
+  filters: {
+    formatTime(val) {
+      return dayjs().from(dayjs(val), true) + "前";
+    }
   }
 };
 </script>
@@ -222,6 +241,9 @@ export default {
     .title {
       display: flex;
       justify-content: space-between;
+      .word {
+        font-size: 18px;
+      }
     }
   }
 }

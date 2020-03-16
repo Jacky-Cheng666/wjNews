@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { channelAll, channelSave } from "@/api/channel.js";
+import { channelAll, channelSave, channelDel } from "@/api/channel.js";
 export default {
   name: "channel",
   props: {
@@ -118,16 +118,20 @@ export default {
       //   }
       // }
       this.myList.splice(index, 1);
-
-      // 根据最新的数据来生成这个数组
-      let channels = this.myList.slice(1).map((item, index) => {
-        return {
-          id: item.id,
-          seq: index + 1
-        };
+      // 调用删除频道接口
+      channelDel({
+        channels: [item.id]
       });
+      // 根据最新的数据来生成这个数组
+      // let channels = this.myList.slice(1).map((item, index) => {
+      //   return {
+      //     id: item.id,
+      //     seq: index + 1
+      //   };
+      // });
+      // console.log(channels);
 
-      channelSave({ channels });
+      // channelSave({ channels });
     }
   },
   computed: {

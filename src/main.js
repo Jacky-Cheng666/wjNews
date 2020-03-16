@@ -10,8 +10,12 @@ import "@/style/base.css"
 import Vant from 'vant';
 import 'vant/lib/index.css';
 Vue.use(Vant);
-
-
+// 导入dayjs
+import dayjs from "dayjs";
+import "dayjs/locale/zh-cn";
+dayjs.locale("zh-cn");
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 new Vue({
   router,
   store,
