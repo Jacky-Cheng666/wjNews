@@ -7,7 +7,7 @@
       <van-cell @click="blackAuthor" icon="delete" title="拉黑作者" />
     </van-cell-group>
 
-    <!-- 举报举办 -->
+    <!-- 举报文章 -->
     <van-cell-group v-else>
       <van-cell @click="isFirst=true" icon="arrow-left"></van-cell>
       <van-cell

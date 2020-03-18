@@ -4,8 +4,8 @@
     <div class="search">
       <van-icon @click="$refs.channel.show=true" class="icon" name="wap-nav" />
       <van-search
+        @focus="searchNews"
         class="searchBar"
-        v-model="value"
         shape="round"
         background="#d43d3d"
         placeholder="请输入搜索关键词"
@@ -79,7 +79,6 @@ export default {
   data() {
     return {
       channels: [],
-      value: "",
       active: "",
       // loading:控制列表List的刷新状态，为false会调用onLoad方法，为true不调用。
       // loading: false,
@@ -155,6 +154,10 @@ export default {
       this.$refs.more.art_id = item.art_id;
       // 引用类型赋值，注意传递的是地址。
       this.$refs.more.art_list = list;
+    },
+    // 搜索框获得焦点
+    searchNews() {
+      this.$router.push("/search");
     }
   },
   async created() {

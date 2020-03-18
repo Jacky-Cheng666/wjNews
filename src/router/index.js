@@ -9,6 +9,8 @@ import layout from '@/views/layout/index.vue'
 import video from '@/views/video'
 import mine from '@/views/mine'
 import question from '@/views/question'
+import search from '@/views/search'
+import searchResult from '@/views/searchResult'
 const routes = [
   {
     path: "/login",
@@ -42,6 +44,21 @@ const routes = [
       meta: { title: "问答" },
     }
     ]
+  },
+  {
+    path: "/search",
+    component: search,
+    meta: {
+      title: "搜索新闻"
+    }
+  },
+  // 动态路由匹配(:key为参数变量)
+  {
+    path: "/searchResult/:key",
+    component: searchResult,
+    meta: {
+      title: "搜索结果"
+    }
   },
   {
     path: "/",
