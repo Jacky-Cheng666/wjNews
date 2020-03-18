@@ -76,7 +76,7 @@ export default {
           this.$store.commit("changeToken", res.data.token);
           this.$store.commit("changeRefToken", res.data.refresh_token);
           // vuex里面的数据一旦页面刷新就会被清空。所以还需要存储到loaclStorage里面。
-          setToken(JSON.stringify(res.data));
+          setToken("wjtoken", JSON.stringify(res.data));
           // 跳转到首页。
           this.$router.push("/home");
         } catch {

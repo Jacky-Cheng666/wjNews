@@ -5,9 +5,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     // token: getToken() ? getToken().token : '',
-    token: getToken() && getToken().token, //短语与运算,第一次赋值为null。
+    token: getToken("wjtoken") && getToken("wjtoken").token, //短语与运算,第一次赋值为null。
     // refresh_token: getToken() ? getToken().refresh_token : ''
-    refresh_token: getToken() && getToken().refresh_token
+    refresh_token: getToken("wjtoken") && getToken("wjtoken").refresh_token
   },
   mutations: {
     changeToken(state, token) {

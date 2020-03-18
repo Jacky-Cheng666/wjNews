@@ -1,13 +1,13 @@
-const TOKENKEY = "wjtoken"
-// 1，获取token方法
-export function getToken() {
-    return JSON.parse(window.localStorage.getItem(TOKENKEY))
+// const TOKENKEY = "wjtoken"
+// 1，获取localStorage方法
+export function getToken(key) {
+    return JSON.parse(window.localStorage.getItem(key))
 }
-// 2，设置token方法
-export function setToken(token) {
-    window.localStorage.setItem(TOKENKEY, token)
+// 2，设置localStorage方法
+export function setToken(key,token) {
+    window.localStorage.setItem(key, token)
 }
-// 3，清除token方法
-export function removeToken() {
-    window.localStorage.removeItem(TOKENKEY)
+// 3，清除localStorage方法
+export function removeToken(key) {
+    window.localStorage.removeItem(key)
 }

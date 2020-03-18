@@ -1,4 +1,4 @@
-function debounce(callback, time) {
+export function debounce(callback, time) {
     let timeId = null;
     return function () {   //这个函数就是闭包
         clearTimeout(timeId)
@@ -8,5 +8,3 @@ function debounce(callback, time) {
     }
 }
 
-// 暴露出去
-export default debounce
