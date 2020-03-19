@@ -51,6 +51,7 @@
 
 <script>
 import { channelAll, channelSave, channelDel } from "@/api/channel.js";
+import { setToken } from "@/utils/token.js";
 export default {
   name: "channel",
   props: {
@@ -95,20 +96,24 @@ export default {
       //     this.otherList.splice(i, 1);
       //   }
       // }
+      if (this.$store.state.token) {
+        // 先准备调用接口需要的数据
+        // 我们要调用slice方法，从下标1开始截取数组。然后再提取。
+        // 例如：我的频道现在有，推荐，c++,前端,java，提取的时候不应该包含推荐。
+        let channels = this.myList.slice(1).map((item, index) => {
+          return {
+            id: item.id,
+            seq: index + 1
+          };
+        });
+        console.log(channels);
 
-      // 先准备调用接口需要的数据
-      // 我们要调用slice方法，从下标1开始截取数组。然后再提取。
-      // 例如：我的频道现在有，推荐，c++,前端,java，提取的时候不应该包含推荐。
-      let channels = this.myList.slice(1).map((item, index) => {
-        return {
-          id: item.id,
-          seq: index + 1
-        };
-      });
-      console.log(channels);
-
-      // 调用接口发请求去保存
-      channelSave({ channels });
+        // 调用接口发请求去保存
+        channelSave({ channels });
+      } else {
+        // 没有登录将频道信息存入到本地存储。
+        setToken("channels", JSON.stringify(this.myList));
+      }
     },
     // 删除图标的点击事件
     del(item, index) {
@@ -118,10 +123,17 @@ export default {
       //   }
       // }
       this.myList.splice(index, 1);
-      // 调用删除频道接口
-      channelDel({
-        channels: [item.id]
-      });
+
+      if (this.$store.state.token) {
+        //登陆了
+        // 调用删除频道接口
+        channelDel({
+          channels: [item.id]
+        });
+      } else {
+        // 用户未登录
+        setToken("channels", JSON.stringify(this.myList));
+      }
       // 根据最新的数据来生成这个数组
       // let channels = this.myList.slice(1).map((item, index) => {
       //   return {

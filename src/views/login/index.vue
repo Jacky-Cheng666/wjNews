@@ -77,8 +77,14 @@ export default {
           this.$store.commit("changeRefToken", res.data.refresh_token);
           // vuex里面的数据一旦页面刷新就会被清空。所以还需要存储到loaclStorage里面。
           setToken("wjtoken", JSON.stringify(res.data));
-          // 跳转到首页。
-          this.$router.push("/home");
+          // 判断路径：如果是Login就跳到home，如果是checkLogin就back。
+          if (this.$router.path == "/login") {
+            // 跳转到首页。
+            this.$router.push("/home");
+          } else {
+            // 从哪来回哪里去
+            this.$router.back();
+          }
         } catch {
           //捕捉错误信息。
 

@@ -68,6 +68,7 @@
 </template>
 
 <script>
+import { getToken } from "@/utils/token.js";
 import { channelList } from "@/api/channel.js";
 import { articleList } from "@/api/article.js";
 import channel from "./components/channel";
@@ -161,25 +162,43 @@ export default {
     }
   },
   async created() {
-    // 1，获取频道列表方法
-    let res = await channelList();
-    // console.log(res);
-    this.channels = res.data.channels;
-    // 拿到频道数据后，我就直接给频道数组里面每个元素都添加那4个属性即可。
-    this.channels.forEach(item => {
-      // 注意：如果直接用赋值，界面不会跟着响应。所以我们要用$set。
-      // item.loading = false;
-      // item.finished = false;
-      // item.pullLoading = false;
-      // item.list = [];
-      this.$set(item, "loading", false);
-      this.$set(item, "finished", false);
-      this.$set(item, "pullLoading", false);
-      this.$set(item, "list", []);
-      // item.pullLoading = false;
-      // 因为它不用在界面显示，可以直接添加属性。
-      item.pre_time = Date.now();
-    });
+    if (this.$store.state.token) {
+      // 1，获取频道列表方法
+      let res = await channelList();
+      // console.log(res);
+      this.channels = res.data.channels;
+      // 拿到频道数据后，我就直接给频道数组里面每个元素都添加那4个属性即可。
+      this.channels.forEach(item => {
+        // 注意：如果直接用赋值，界面不会跟着响应。所以我们要用$set。
+        // item.loading = false;
+        // item.finished = false;
+        // item.pullLoading = false;
+        // item.list = [];
+        this.$set(item, "loading", false);
+        this.$set(item, "finished", false);
+        this.$set(item, "pullLoading", false);
+        this.$set(item, "list", []);
+        // item.pullLoading = false;
+        // 因为它不用在界面显示，可以直接添加属性。
+        item.pre_time = Date.now();
+      });
+    } else {
+      let res = getToken("channels");
+      // 如果有值，就把channels赋值为本地存储的频道。如果没有值就发请求获取服务器推荐的默认频道
+      if (res) {
+        this.channels = res;
+      } else {
+        res = await channelList();
+        this.channels = res.data.channels;
+        this.channels.forEach(item => {
+          this.$set(item, "loading", false);
+          this.$set(item, "finished", false);
+          this.$set(item, "pullLoading", false);
+          this.$set(item, "list", []);
+          item.pre_time = Date.now();
+        });
+      }
+    }
   }
 };
 </script>

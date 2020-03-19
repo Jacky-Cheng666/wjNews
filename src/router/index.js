@@ -11,9 +11,18 @@ import mine from '@/views/mine'
 import question from '@/views/question'
 import search from '@/views/search'
 import searchResult from '@/views/searchResult'
+import detail from '@/views/detail/index.vue'
 const routes = [
   {
     path: "/login",
+    component: login,
+    meta: {
+      title: "万家资讯-登录"
+    }
+  },
+  // login模块可以有两个路由访问。1，/login访问。2，/checkLogin访问。
+  {
+    path: "/checkLogin",
     component: login,
     meta: {
       title: "万家资讯-登录"
@@ -61,8 +70,15 @@ const routes = [
     }
   },
   {
+    path: "/detail/:art_id",
+    component: detail,
+    meta: {
+      title: "文章详情"
+    }
+  },
+  {
     path: "/",
-    redirect: "/home"
+    redirect: "/login"
   },
 
 ]
