@@ -180,11 +180,6 @@ export default {
       // 因为它不用在界面显示，可以直接添加属性。
       item.pre_time = Date.now();
     });
-  },
-  filters: {
-    formatTime(val) {
-      return dayjs().from(dayjs(val), true) + "前";
-    }
   }
 };
 </script>

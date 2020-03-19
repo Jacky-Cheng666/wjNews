@@ -7,3 +7,12 @@ export function getSuggest(params) {
         params
     })
 }
+
+// 2，获得搜索文章的结果
+export function getSearch(params) {
+    return request({
+        url: "/app/v1_0/search",
+        method: "get",
+        params
+    })
+}

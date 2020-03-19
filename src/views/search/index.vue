@@ -201,6 +201,11 @@ body {
   }
   .history-content {
     .history-item {
+      padding-left: 28px;
+      padding-right: 28px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
       height: 44px;
       text-align: center;
       line-height: 44px;
