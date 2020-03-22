@@ -7,7 +7,7 @@
       <van-cell class="my-cell" v-for="(item,index) in list" :key="index">
         <template slot="title">
           <!-- 标题模块 -->
-          <div class="title">
+          <div @click="$router.push(`/detail/${item.art_id}`)" class="title">
             <span class="two">{{item.title}}</span>
             <img
               style="width:116px;height:73px"
@@ -33,7 +33,7 @@
             <van-row>
               <van-col @click="doComment" span="8">
                 <van-icon name="comment-o" />
-                <span>89</span>
+                <span>{{item.comm_count}}</span>
               </van-col>
               <van-col @click="doZan" span="8">
                 <van-icon name="like-o" />

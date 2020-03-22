@@ -5,11 +5,20 @@ import JSONBig from 'json-bigint'
 // 创建新的axios实例。
 let request = axios.create({
     baseURL: process.env.VUE_APP_URL,
+    // `transformResponse` 在传递给 then/catch 前，允许修改响应数据
     transformResponse: [function (data) {
         // 对 data 进行任意转换处理
         // console.log('transform', data);
         // 把响应体用JSONBig转化一下。再返回给.then使用。转化之后就是经过json-big处理之后的对象了。
-        return JSONBig.parse(data);
+        // 假如返回的响应体不是JSON字符串呢。就会报错。
+        // ******************注意：并不是所有的接口都会返回JSON字符串。所以加try-catch会合理一点*********************
+        try {
+            return JSONBig.parse(data);
+        } catch  {
+            // 如果响应不是字符串，本身响应的是什么，就返回什么。（非JSON格式字符）
+            return data;
+        }
+        // 上面整体代码的意思是：如果服务器响应体返回的是JSON格式字符串，就要转成JS对象再返回，如果不是JSON字符串，就原来是什么响应体就返回什么响应体。
     }],
 })
 // 1，添加请求拦截器

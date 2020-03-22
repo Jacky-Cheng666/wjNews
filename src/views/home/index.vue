@@ -28,7 +28,7 @@
               <!-- 自定义title内容 -->
               <template slot="title">
                 <!-- 标题div -->
-                <div class="title">
+                <div @click="$router.push(`/detail/${it.art_id}`)" class="title">
                   <span class="word">{{it.title}}</span>
                   <img
                     style="width:116px;height:73px"

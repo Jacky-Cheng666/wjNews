@@ -78,7 +78,7 @@ export default {
           // vuex里面的数据一旦页面刷新就会被清空。所以还需要存储到loaclStorage里面。
           setToken("wjtoken", JSON.stringify(res.data));
           // 判断路径：如果是Login就跳到home，如果是checkLogin就back。
-          if (this.$router.path == "/login") {
+          if (this.$route.path == "/login") {
             // 跳转到首页。
             this.$router.push("/home");
           } else {
