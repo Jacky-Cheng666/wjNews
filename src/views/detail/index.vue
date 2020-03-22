@@ -36,7 +36,7 @@
     <!-- 评论区域 -->
     <comment ref="comment"></comment>
     <!-- 撰写评论区域 -->
-    <write :is_collected="articleObj.is_collected" ref="write"></write>
+    <write :isReply="false" :is_collected="articleObj.is_collected" ref="write"></write>
     <!-- 回复栏模块 -->
     <reply></reply>
   </div>

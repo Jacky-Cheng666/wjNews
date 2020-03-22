@@ -8,7 +8,7 @@
       position="bottom"
       :style="{ height: '70%' }"
     >
-      <span class="count">0条回复</span>
+      <span class="count">{{commentObj.reply_count}}条回复</span>
       <!-- list模块 -->
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <van-cell v-for="(item, index) in list" :key="index">
@@ -39,7 +39,13 @@
         </van-cell>
       </van-list>
       <!-- 输入框 -->
-      <write ref="write"></write>
+      <write
+        @addOK="addCount"
+        :reply_list="list"
+        :isReply="true"
+        ref="write"
+        :com_id="commentObj.com_id"
+      ></write>
     </van-popup>
   </div>
 </template>
@@ -67,15 +73,23 @@ export default {
     // 一般写在created里面，因为越早越好。
     // 代表我这个组件一旦创建，就需要订阅这个数据。
     bus.$on("reply", async data => {
-      // console.log("我在comment里面", data);
-      // 加到评论列表里面
-      // 加到第一条。
-      this.show = true;
+      // 每次弹出层显示之前重置默认数据
+      this.loading = false;
+      this.finished = false;
+      this.list = [];
+      this.last_id = undefined;
+      this.commentObj = {};
       // 把被点击的那一行数据点击保存起来。
       this.commentObj = data;
+      this.show = true;
     });
   },
   methods: {
+    addCount() {
+      // 让reply_count加1，
+      // 当自组件添加成功会调用这个事件。
+      this.commentObj.reply_count++;
+    },
     replyZan() {},
     async onLoad() {
       let res = await commentList({
@@ -86,10 +100,11 @@ export default {
         offset: this.last_id,
         limit: 10
       });
-      console.log(res);
+      // console.log(res);
       this.list.push(...res.data.results);
       // 记录下一次开始的id。
       this.last_id = res.data.last_id;
+
       if (res.data.end_id == res.data.last_id) {
         this.finished = true;
       } else {
@@ -102,7 +117,7 @@ export default {
 
 <style lang="less">
 .reply {
-  margin-bottom: 54px;
+  // margin-bottom: 54px;
   .count {
     margin-top: 10px;
     display: block;
@@ -148,6 +163,9 @@ export default {
         color: red;
       }
     }
+  }
+  .van-popup--bottom {
+    margin-bottom: 55px;
   }
 }
 </style>
