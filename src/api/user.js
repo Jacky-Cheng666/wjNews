@@ -15,3 +15,11 @@ export function unFollow(data) {
         method: "delete"
     })
 }
+
+// 3，获取用户自己的信息
+export function getInfo() {
+    return request({
+        url: "/app/v1_0/user",
+        method: "get"
+    })
+}
