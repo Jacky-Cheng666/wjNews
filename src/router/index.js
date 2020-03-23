@@ -12,6 +12,7 @@ import question from '@/views/question'
 import search from '@/views/search'
 import searchResult from '@/views/searchResult'
 import detail from '@/views/detail/index.vue'
+import personInfo from '@/views/personInfo/index.vue'
 const routes = [
   {
     path: "/login",
@@ -74,6 +75,13 @@ const routes = [
     component: detail,
     meta: {
       title: "文章详情"
+    }
+  },
+  {
+    path: "/personInfo/:user_id",
+    component: personInfo,
+    meta: {
+      title: "个人信息"
     }
   },
   {

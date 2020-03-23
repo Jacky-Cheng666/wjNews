@@ -3,11 +3,16 @@
     <div class="header">
       <!-- 用户信息 -->
       <div v-if="$store.state.token" class="user">
-        <img class="user-icon" :src="userObj.photo" alt />
+        <img @click="toPersonal" class="user-icon" :src="userObj.photo" alt />
         <span class="username">{{userObj.name}}</span>
       </div>
       <div v-else class="user">
-        <img class="top-phone" src="http://toutiao.research.itcast.cn/img/wd_weidl.png" alt />
+        <img
+          @click="$router.push('/login')"
+          class="top-phone"
+          src="http://toutiao.research.itcast.cn/img/wd_weidl.png"
+          alt
+        />
       </div>
 
       <!-- 粉丝关注 -->
@@ -57,7 +62,9 @@
 
 <script>
 import { getInfo } from "@/api/user.js";
+import bus from "@/utils/bus.js";
 export default {
+  name: "mine",
   data() {
     return {
       userObj: {}
@@ -67,8 +74,13 @@ export default {
     if (this.$store.state.token) {
       // 有token代表登录了，就发送请求获取当前数据。
       let res = await getInfo();
-      console.log(res);
+      // console.log(res);
       this.userObj = res.data;
+    }
+  },
+  methods: {
+    toPersonal() {
+      this.$router.push(`/personInfo/${this.userObj.id.toString()}`);
     }
   }
 };
