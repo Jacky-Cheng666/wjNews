@@ -51,3 +51,12 @@ export function uploadPhoto(data) {
         data: fm
     })
 }
+
+// 6，编辑用户资料
+export function editProfile(data) {
+    return request({
+        url: "/app/v1_0/user/profile",
+        method: "PATCH",
+        data
+    });
+}

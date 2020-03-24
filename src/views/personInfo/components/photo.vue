@@ -46,8 +46,7 @@ export default {
                 photo: this.file
               });
               console.log(res);
-              this.$parent.userProfile.photo = res.data.photo;
-              this.show = false;
+              this.$emit("upOK", res.data.photo);
             })
             .catch(() => {
               // on cancel
