@@ -52,7 +52,6 @@
       <van-datetime-picker
         @cancel="birthdayShow=false"
         @confirm="ChooseTime"
-        :formatter="formatter"
         v-model="currentDate"
         type="date"
         :min-date="minDate"
@@ -147,6 +146,9 @@ export default {
     .van-nav-bar__text {
       color: #fff;
     }
+  }
+  .van-nav-bar__text:active {
+    background-color: transparent;
   }
   .info {
     .avatar {

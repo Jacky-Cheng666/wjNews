@@ -55,7 +55,20 @@
     <van-cell-group class="setting">
       <van-cell class="set-item" title="消息通知" is-link />
       <van-cell class="set-item" title="用户反馈" is-link />
-      <van-cell class="set-item" title="小智同学" is-link />
+      <!-- 以前参数是直接写路径，例如:$router.push('/robot') -->
+      <!-- 路由可以传一个对象：
+          name:路由的名字，
+          params:给路由的参数,
+          path:写路由的路径
+
+      如果是这种写法，还需要传递params参数，就不能使用Path，只能使用name属性来跳转路由。
+      -->
+      <van-cell
+        @click="$router.push({name:'robot',params:{icon:userObj.photo}})"
+        class="set-item"
+        title="小智同学"
+        is-link
+      />
     </van-cell-group>
   </div>
 </template>

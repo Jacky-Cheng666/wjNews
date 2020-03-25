@@ -13,6 +13,7 @@ import search from '@/views/search'
 import searchResult from '@/views/searchResult'
 import detail from '@/views/detail/index.vue'
 import personInfo from '@/views/personInfo/index.vue'
+import robot from '@/views/robot/index.vue'
 const routes = [
   {
     path: "/login",
@@ -27,6 +28,14 @@ const routes = [
     component: login,
     meta: {
       title: "万家资讯-登录"
+    }
+  },
+  {
+    name: "robot",
+    path: "/robot",
+    component: robot,
+    meta: {
+      title: "机器人页面"
     }
   },
   {
