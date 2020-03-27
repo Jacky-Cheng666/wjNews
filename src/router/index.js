@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 // 导入组件。
 // 如果写views/login找到views下面的login文件夹里面里面的index.js或者index.vue。省略写法。
+// 这种导入方式就是同步导入，最终打包成一个js文件，在第一次访问页面时就全部加载下来。
 import login from '@/views/login/index.vue'
 import home from '@/views/home/index.vue'
 import layout from '@/views/layout/index.vue'
@@ -14,6 +15,20 @@ import searchResult from '@/views/searchResult'
 import detail from '@/views/detail/index.vue'
 import personInfo from '@/views/personInfo/index.vue'
 import robot from '@/views/robot/index.vue'
+
+// 异步方式导入组件。懒加载组件。但是移动端一般不推荐使用懒加载导入，因为会影响切换效率。
+// const login = () => import('@/views/login/index.vue')
+// const home = () => import('@/views/home/index.vue')
+// const layout = () => import('@/views/layout/index.vue')
+// const video = () => import('@/views/video')
+// const mine = () => import('@/views/mine')
+// const question = () => import('@/views/question')
+// const search = () => import('@/views/search')
+// const searchResult = () => import('@/views/searchResult')
+// const detail = () => import('@/views/detail/index.vue')
+// const personInfo = () => import('@/views/personInfo/index.vue')
+// const robot = () => import('@/views/robot/index.vue')
+
 const routes = [
   {
     path: "/login",
@@ -95,7 +110,7 @@ const routes = [
   },
   {
     path: "/",
-    redirect: "/login"
+    redirect: "/home"
   },
 
 ]

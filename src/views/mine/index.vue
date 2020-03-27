@@ -69,12 +69,14 @@
         title="小智同学"
         is-link
       />
+      <van-cell @click="logout" class="set-item" title="退出登录" />
     </van-cell-group>
   </div>
 </template>
 
 <script>
 import { getInfo } from "@/api/user.js";
+import { removeToken } from "@/utils/token.js";
 import bus from "@/utils/bus.js";
 export default {
   name: "mine",
@@ -94,6 +96,12 @@ export default {
   methods: {
     toPersonal() {
       this.$router.push(`/personInfo/${this.userObj.id.toString()}`);
+    },
+    logout() {
+      removeToken("wjtoken");
+      this.$store.commit("changeToken", "");
+      // this.$router.push("/mine");
+      this.$toast("退出成功");
     }
   }
 };

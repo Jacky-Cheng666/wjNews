@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     send() {
-      if (this.msg.trim() == "") {
+      if (this.msg.length == 0) {
         this.$toast("发送内容不能为空");
         return;
       }

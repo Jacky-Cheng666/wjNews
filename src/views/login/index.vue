@@ -4,6 +4,7 @@
     <van-nav-bar title="登录" />
     <!-- 2，输入框 -->
     <van-field
+      type="tel"
       required
       :error-message="valid.mobile"
       v-model="form.mobile"
@@ -15,6 +16,7 @@
       </template>
     </van-field>
     <van-field
+      type="digit"
       required
       :error-message="valid.code"
       class="pwd"
@@ -41,7 +43,7 @@
 </template>
 
 <script>
-import { login } from "@/api/login.js";
+import { login, getCode } from "@/api/login.js";
 import { setToken } from "@/utils/token.js";
 export default {
   name: "login",
@@ -55,8 +57,8 @@ export default {
       },
       // 输入框绑定的数据。
       form: {
-        mobile: "13911111111",
-        code: "246810"
+        mobile: "",
+        code: ""
       }
     };
   },
@@ -115,7 +117,17 @@ export default {
       return flag;
     },
     // 3，获取验证码按钮点击事件
-    getYZM() {}
+    async getYZM() {
+      try {
+        let res = await getCode({
+          phone: this.form.mobile
+        });
+        console.log(res);
+        this.$toast("验证码已发送到您的手机");
+      } catch {
+        this.$toast("请一分钟后再试");
+      }
+    }
   }
 };
 </script>

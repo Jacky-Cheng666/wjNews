@@ -18,6 +18,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 // 导入全局过滤器
 import "@/filters/filters.js"
+// 导入设置rem值的插件，淘宝团队的。
+import "amfe-flexible/index"
 // 导入判断用户是否登录插件
 import myPlugin from '@/utils/myPlugin.js'
 // 注册myPlugin插件。Vue.use()的原理就是在调用install方法。
